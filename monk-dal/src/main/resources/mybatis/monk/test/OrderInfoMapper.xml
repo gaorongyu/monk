@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fngry.monk.dao.test.OrderInfoMapper">
+
+	<!--实体映射-->
+	<resultMap id="BaseResultMap" type="com.fngry.monk.entity.test.OrderInfo">
+		<!---->
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<!--是否已删除-->
+		<result column="is_deleted" property="isDeleted"  jdbcType="VARCHAR" />
+		<!--创建人-->
+		<result column="creator" property="creator"  jdbcType="INTEGER" />
+		<!--创建时间-->
+		<result column="gmt_create" property="gmtCreate"  jdbcType="TIMESTAMP" />
+		<!--修改人-->
+		<result column="modifier" property="modifier"  jdbcType="INTEGER" />
+		<!--修改时间-->
+		<result column="gmt_modified" property="gmtModified"  jdbcType="TIMESTAMP" />
+		<!--订单编码-->
+		<result column="order_sn" property="orderSn"  jdbcType="VARCHAR" />
+		<!--外部商家订单编码-->
+		<result column="external_order_sn" property="externalOrderSn"  jdbcType="VARCHAR" />
+		<!--订单来源-->
+		<result column="order_source_type" property="orderSourceType"  jdbcType="INTEGER" />
+		<!--销售员id-->
+		<result column="sale_id" property="saleId"  jdbcType="INTEGER" />
+		<!--销售员名称-->
+		<result column="sale_name" property="saleName"  jdbcType="VARCHAR" />
+		<!--用户中心shop表的user_id,原来的名字user_id-->
+		<result column="shop_id" property="shopId"  jdbcType="INTEGER" />
+		<!--订单状态 -5 被拆单 -3 被合单 -2 删除 0 未确认 1 已确认 2 取消 3 无效-->
+		<result column="order_status" property="orderStatus"  jdbcType="INTEGER" />
+		<!--0 未发货 1 已发货-->
+		<result column="shipping_status" property="shippingStatus"  jdbcType="INTEGER" />
+		<!--付款状态 0 未付款 1 付款中 2 已付款-->
+		<result column="pay_status" property="payStatus"  jdbcType="INTEGER" />
+		<!--shop的门店名称-->
+		<result column="company_name" property="companyName"  jdbcType="VARCHAR" />
+		<!--收货人名称-->
+		<result column="consignee" property="consignee"  jdbcType="VARCHAR" />
+		<!--收货地址－乡村-->
+		<result column="country" property="country"  jdbcType="INTEGER" />
+		<!--收货地址－省-->
+		<result column="province" property="province"  jdbcType="INTEGER" />
+		<!--收货地址－城市-->
+		<result column="city" property="city"  jdbcType="INTEGER" />
+		<!--收货地址－区-->
+		<result column="district" property="district"  jdbcType="INTEGER" />
+		<!--收货地址－街道-->
+		<result column="street" property="street"  jdbcType="INTEGER" />
+		<!--收货地址－详细信息-->
+		<result column="address" property="address"  jdbcType="VARCHAR" />
+		<!--收货人手机号码-->
+		<result column="mobile" property="mobile"  jdbcType="VARCHAR" />
+		<!--订单备注 内部备注,例如小秘书、销售备注-->
+		<result column="postscript" property="postscript"  jdbcType="VARCHAR" />
+		<!--发货方式-->
+		<result column="shipping_id" property="shippingId"  jdbcType="INTEGER" />
+		<!--发货方式名称-->
+		<result column="shipping_name" property="shippingName"  jdbcType="VARCHAR" />
+		<!--支付方式 暂时交易中心定义-->
+		<result column="pay_id" property="payId"  jdbcType="INTEGER" />
+		<!--支付名称-->
+		<result column="pay_name" property="payName"  jdbcType="VARCHAR" />
+		<!--商品金额-->
+		<result column="goods_amount" property="goodsAmount"  jdbcType="DECIMAL" />
+		<!--运费-->
+		<result column="shipping_fee" property="shippingFee"  jdbcType="DECIMAL" />
+		<!--线上支付的实际金额-->
+		<result column="pay_fee" property="payFee"  jdbcType="DECIMAL" />
+		<!---->
+		<result column="money_paid" property="moneyPaid"  jdbcType="DECIMAL" />
+		<!--红包优惠-->
+		<result column="bonus" property="bonus"  jdbcType="DECIMAL" />
+		<!--订单金额-->
+		<result column="order_amount" property="orderAmount"  jdbcType="DECIMAL" />
+		<!--真实价格-->
+		<result column="ori_order_amount" property="oriOrderAmount"  jdbcType="DECIMAL" />
+		<!--审计用订单金额-->
+		<result column="audit_amount" property="auditAmount"  jdbcType="DECIMAL" />
+		<!--订单来源 云修|app-->
+		<result column="referer" property="referer"  jdbcType="VARCHAR" />
+		<!--下单时间-->
+		<result column="add_time" property="addTime"  jdbcType="TIMESTAMP" />
+		<!--订单确认下推时间-->
+		<result column="confirm_time" property="confirmTime"  jdbcType="TIMESTAMP" />
+		<!--订单支付时间-->
+		<result column="pay_time" property="payTime"  jdbcType="TIMESTAMP" />
+		<!--订单发货时间-->
+		<result column="shipping_time" property="shippingTime"  jdbcType="TIMESTAMP" />
+		<!--发票类型-->
+		<result column="inv_type" property="invType"  jdbcType="VARCHAR" />
+		<!--税 暂时无用-->
+		<result column="tax" property="tax"  jdbcType="DECIMAL" />
+		<!--拆单合单使用父订单编号-->
+		<result column="parent_id" property="parentId"  jdbcType="INTEGER" />
+		<!--订单总折扣-->
+		<result column="discount" property="discount"  jdbcType="DECIMAL" />
+		<!--发货仓库id-->
+		<result column="warehouse_id" property="warehouseId"  jdbcType="INTEGER" />
+		<!--业务备注 比如业务经理手机号, 拆单合单优惠等,下单界面填的备注-->
+		<result column="business_note" property="businessNote"  jdbcType="VARCHAR" />
+		<!--属性扩展字段-->
+		<result column="attributes" property="attributes"  jdbcType="VARCHAR" />
+		<!--交易状态, 参考订单中心OperateKeyEnum-->
+		<result column="trade_status" property="tradeStatus"  jdbcType="VARCHAR" />
+		<!--商家id-->
+		<result column="seller_id" property="sellerId"  jdbcType="INTEGER" />
+		<!--商家昵称-->
+		<result column="seller_nick" property="sellerNick"  jdbcType="VARCHAR" />
+		<!--用户类型：1门店、2普通用户-->
+		<result column="user_type" property="userType"  jdbcType="INTEGER" />
+		<!--订单标记，通过“,”分隔（BHD被合单、BCD被拆单、GJG改价格、GPS改配送、DYD第一单、XSYTH销售已提货）-->
+		<result column="order_flags" property="orderFlags"  jdbcType="VARCHAR" />
+		<!--支付商返回的流水号-->
+		<result column="pay_no" property="payNo"  jdbcType="VARCHAR" />
+		<!--扫描支付url-->
+		<result column="pay_url" property="payUrl"  jdbcType="VARCHAR" />
+		<!--城市站ID-->
+		<result column="city_id" property="cityId"  jdbcType="INTEGER" />
+		<!--uc里面的登陆操作帐户id-->
+		<result column="account_id" property="accountId"  jdbcType="INTEGER" />
+		<!--服务订单id-->
+		<result column="order_service_id" property="orderServiceId"  jdbcType="INTEGER" />
+		<!--计划状态 1-可出库, 2-部分缺货, 3-全部缺货, 4-可调拨-->
+		<result column="plan_status" property="planStatus"  jdbcType="INTEGER" />
+		<!--运算优先级,数量大优先级高-->
+		<result column="plan_priority" property="planPriority"  jdbcType="INTEGER" />
+		<!--拒收金额-->
+		<result column="return_amount" property="returnAmount"  jdbcType="DECIMAL" />
+		<!--取消状态 先申请取消 通过后变成取消确认-->
+		<result column="warehouse_status" property="warehouseStatus"  jdbcType="VARCHAR" />
+		<!--出库单号-->
+		<result column="delivery_no" property="deliveryNo"  jdbcType="VARCHAR" />
+		<!--缺货标示 0:可预约 1：缺货-->
+		<result column="stockout_type" property="stockoutType"  jdbcType="INTEGER" />
+		<!--下推出库单状态 0-未下推, 1－已下推-->
+		<result column="transfer_status" property="transferStatus"  jdbcType="INTEGER" />
+		<!--到货确认状态 0 未到货，1 部分到货，2 全部到货-->
+		<result column="arrival_status" property="arrivalStatus"  jdbcType="INTEGER" />
+		<!--发货日期-->
+		<result column="send_date" property="sendDate"  jdbcType="TIMESTAMP" />
+		<!--交货日期 包括拒收时间-->
+		<result column="sign_date" property="signDate"  jdbcType="TIMESTAMP" />
+		<!--打印出库单时间-->
+		<result column="print_time" property="printTime"  jdbcType="TIMESTAMP" />
+		<!--下推ERP时间-->
+		<result column="pushdown_time" property="pushdownTime"  jdbcType="TIMESTAMP" />
+		<!--出库时间-->
+		<result column="out_ware_time" property="outWareTime"  jdbcType="TIMESTAMP" />
+		<!--最后一次派送时间-->
+		<result column="redispatch_time" property="redispatchTime"  jdbcType="TIMESTAMP" />
+		<!--退货入库日期-->
+		<result column="return_in_ware_date" property="returnInWareDate"  jdbcType="TIMESTAMP" />
+		<!--收款日期-->
+		<result column="receive_cash_date" property="receiveCashDate"  jdbcType="TIMESTAMP" />
+		<!--退款日期-->
+		<result column="refund_date" property="refundDate"  jdbcType="TIMESTAMP" />
+		<!--核销时间-->
+		<result column="gmt_write_off" property="gmtWriteOff"  jdbcType="TIMESTAMP" />
+		<!--核销金额-->
+		<result column="write_off_amount" property="writeOffAmount"  jdbcType="DECIMAL" />
+		<!--实收总金额-->
+		<result column="receive_amount" property="receiveAmount"  jdbcType="DECIMAL" />
+		<!--实退金额-->
+		<result column="real_return_amount" property="realReturnAmount"  jdbcType="DECIMAL" />
+		<!--核销状态:1,已核销,0,未核销-->
+		<result column="write_off_status" property="writeOffStatus"  jdbcType="INTEGER" />
+		<!--财务收款方式(备注 1:现金收款,2:POS收款,3:银行转账,4:支付宝转账,5:在线收款（预付）)-->
+		<result column="receive_type" property="receiveType"  jdbcType="INTEGER" />
+		<!--打印状态 未打印  `已打印 错误列表-->
+		<result column="print_status" property="printStatus"  jdbcType="INTEGER" />
+		<!--预约时间-->
+		<result column="appointment_time" property="appointmentTime"  jdbcType="TIMESTAMP" />
+		<!--可出库时间-->
+		<result column="can_out_warehouse_time" property="canOutWarehouseTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id,is_deleted,creator,gmt_create,modifier,
+		gmt_modified,order_sn,external_order_sn,order_source_type,sale_id,
+		sale_name,shop_id,order_status,shipping_status,pay_status,
+		company_name,consignee,country,province,city,
+		district,street,address,mobile,postscript,
+		shipping_id,shipping_name,pay_id,pay_name,goods_amount,
+		shipping_fee,pay_fee,money_paid,bonus,order_amount,
+		ori_order_amount,audit_amount,referer,add_time,confirm_time,
+		pay_time,shipping_time,inv_type,tax,parent_id,
+		discount,warehouse_id,business_note,attributes,trade_status,
+		seller_id,seller_nick,user_type,order_flags,pay_no,
+		pay_url,city_id,account_id,order_service_id,plan_status,
+		plan_priority,return_amount,warehouse_status,delivery_no,stockout_type,
+		transfer_status,arrival_status,send_date,sign_date,print_time,
+		pushdown_time,out_ware_time,redispatch_time,return_in_ware_date,receive_cash_date,
+		refund_date,gmt_write_off,write_off_amount,receive_amount,real_return_amount,
+		write_off_status,receive_type,print_status,appointment_time,can_out_warehouse_time
+	</sql>
+
+	<!-- 动态条件 -->
+	<sql id="BaseCondition">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">
+					 AND id=#{id,jdbcType=INTEGER }
+				</if>
+				<if test="isDeleted != null">
+					 AND is_deleted=#{isDeleted,jdbcType=VARCHAR }
+				</if>
+				<if test="isDeleted == null">
+					AND is_deleted='N'
+				</if>
+				<if test="creator != null">
+					 AND creator=#{creator,jdbcType=INTEGER }
+				</if>
+				<if test="gmtCreate != null">
+					 AND gmt_create=#{gmtCreate,jdbcType=TIMESTAMP }
+				</if>
+				<if test="gmtModified != null">
+					 AND gmt_modified=#{gmtModified,jdbcType=TIMESTAMP }
+				</if>
+				<if test="orderSn != null">
+					 AND order_sn=#{orderSn,jdbcType=VARCHAR }
+				</if>
+
+
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 根据动态条件查询语句（根据BaseCondition查询语句） -->
+	<select id="select" resultMap="BaseResultMap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM venus_order_info
+		 <include refid="BaseCondition"/>
+	</select>
+
+</mapper>

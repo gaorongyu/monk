@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <!-- 设置 default-servlet-handler、annotation-driven  spring才会扫描controller -->
+    <mvc:default-servlet-handler/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <mvc:annotation-driven ignore-default-model-on-redirect="true">
+        <mvc:message-converters register-defaults="true">
+            <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >-->
+                <!--<property name="supportedMediaTypes">-->
+                    <!--<list>-->
+                        <!--<value>application/json;charset=UTF-8</value>-->
+                        <!--<value>text/html;charset=UTF-8</value>-->
+                    <!--</list>-->
+                <!--</property>-->
+                <!--&lt;!&ndash; 配置 objectMapper 处理日期等字段-->
+                <!--<property name="objectMapper">-->
+                    <!--<bean class=" 继承 com.fasterxml.jackson.databind.ObjectMapper.java">-->
+                        <!--<property name="serializationInclusion" value="ALWAYS"/>-->
+                    <!--</bean>-->
+                <!--</property>-->
+                <!--&ndash;&gt;-->
+            <!--</bean>-->
+        </mvc:message-converters>
+        <mvc:argument-resolvers>
+            <!-- @PageableDefault -->
+            <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+    <!-- 拦截器 start -->
+    <bean id="exceptionInterceptor" class="com.fngry.monk.web.interceptor.ExceptionInterceptor">
+    </bean>
+    <bean id="authenticateInterceptor" class="com.fngry.monk.web.interceptor.AuthenticateInterceptor">
+        <property name="authenticateHandlers">
+            <list>
+                <ref bean="requestAuthenticateHandler" />
+            </list>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <ref bean="exceptionInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/test/second"/>
+            <ref bean="authenticateInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!-- 拦截器 end -->
+
+</beans>

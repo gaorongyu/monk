@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fngry.monk.dao.test.TestMapper">
+
+    <select id="selectCount" resultType="java.lang.Integer">
+      select count(*) from t_stock;
+    </select>
+
+</mapper>

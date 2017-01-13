@@ -1,0 +1,24 @@
+debug  = ${debug}
+
+log.charset  = ${log_charset}
+log.level    = ${log_level}
+log.pattern  = ${log_pattern}
+log.root     = ${log_root}
+
+monk.jdbc.driverClassName  = ${monk_jdbc_driverClassName}
+monk.jdbc.password         = ${monk_jdbc_password}
+monk.jdbc.url              = ${monk_jdbc_url}
+monk.jdbc.username         = ${monk_jdbc_username}
+
+monk.rabbit.mq.host              = ${monk_rabbit_mq_host}
+monk.rabbit.mq.port              = ${monk_rabbit_mq_port}
+monk.rabbit.mq.exchange          = ${monk_rabbit_mq_exchange}
+monk.rabbit.mq.virtualHost       = ${monk_rabbit_mq_virtualHost}
+monk.rabbit.mq.rootingKey        = ${monk_rabbit_mq_rootingKey}
+monk.rabbit.mq.userName          = ${monk_rabbit_mq_userName}
+monk.rabbit.mq.password          = ${monk_rabbit_mq_password}
+
+monk.rabbit.mq.queue          = ${monk_rabbit_mq_queue}
+
+elastic.address  = ${elastic_address}
+elastic.cluster.name  = ${elastic_cluster_name}

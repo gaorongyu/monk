@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config description="">
+    <group name="default">
+
+        <property name="debug" defaultValue="false"
+                  description="是否开启debug"/>
+
+        <property name="log.root" defaultValue="../logs/monk"
+                  description="log文件目录"/>
+        <property name="log.level" defaultValue="INFO"
+                  description="log级别"/>
+        <property name="log.pattern"
+                  defaultValue="[%d{'MM-dd HH:mm:ss,SSS',GMT+8:00}] %-5p [%.10t][%X{CU}] %logger{36}[%L] - %m%n"
+                  description="log格式"/>
+        <property name="log.charset" defaultValue="UTF-8"
+                  description="log文件编码类型"/>
+
+        <property name="monk.jdbc.driverClassName" defaultValue="com.mysql.jdbc.Driver"
+                  description="JDBC driver class name"/>
+        <property name="monk.jdbc.url" defaultValue="jdbc:mysql://127.0.0.1/test?useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true"
+                  description="JDBC url"/>
+        <property name="monk.jdbc.username" defaultValue="root"
+                  description="JDBC user name" />
+        <property name="monk.jdbc.password" defaultValue="root"
+                  description="JDBC password" />
+
+        <property name="monk.rabbit.mq.host" defaultValue="127.0.0.1"
+                  description="rabbitMQ host"/>
+        <property name="monk.rabbit.mq.port" defaultValue="5672"
+                  description="rabbitMQ port"/>
+        <property name="monk.rabbit.mq.exchange" defaultValue="creative_exchange"
+                  description="rabbitMQ exchange"/>
+        <property name="monk.rabbit.mq.virtualHost" defaultValue="creative"
+                  description="rabbitMQ virtualHost"/>
+        <property name="monk.rabbit.mq.rootingKey" defaultValue="gaorongyu_test_rootingKey"
+                  description="rabbitMQ rootingKey"/>
+        <property name="monk.rabbit.mq.userName" defaultValue="gaorongyu"
+                  description="rabbitMQ userName"/>
+        <property name="monk.rabbit.mq.password" defaultValue="123456"
+                  description="rabbitMQ password"/>
+
+        <property name="monk.rabbit.mq.queue" defaultValue="gaorongyu_test"
+                  description="rabbitMQ queue"/>
+
+        <property name="elastic.address" defaultValue="127.0.0.1:9300"
+                  description="elastic address"/>
+        <property name="elastic.cluster.name" defaultValue="gry-local"
+                  description="elastic cluster name"/>
+
+
+    </group>
+
+    <script>
+        <generate template="application.properties.vm"
+                  destfile="WEB-INF/application.properties"
+                  charset="UTF-8"/>
+        <generate template="logback.xml.vm"
+                  destfile="WEB-INF/classes/logback.xml"
+                  charset="UTF-8"/>
+    </script>
+</config>

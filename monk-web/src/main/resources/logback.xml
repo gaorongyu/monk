@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration debug="false">
+    <property name="log_pattern"
+              value="[%d{'MM-dd HH:mm:ss,SSS',GMT+8:00}] %-5p [%.10t][%X{CU}] %logger{36}[%L] - %m%n"/>
+    <property name="LOG_CHARSET" value="${log_charset}"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>${log_charset}</charset>
+            <pattern>${log_pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="COMMON"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_root}/common.log</file>
+        <append>true</append>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_root}/common.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>${log_charset}</charset>
+            <pattern>${log_pattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_root}/error.log</file>
+        <append>true</append>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_root}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <charset>${log_charset}</charset>
+            <pattern>${log_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="${log_level}"/>
+        <appender-ref ref="COMMON"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+
+</configuration>
