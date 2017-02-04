@@ -8,11 +8,6 @@
             init-method="init">
     </bean>
 
-
-    <bean id="messageReceiverCopy" class="com.fngry.monk.biz.demo.message.rabbitmq.spring.MessageReceiverCopy"
-          init-method="init">
-    </bean>
-
     <bean id="messageSender" class="com.fngry.monk.biz.demo.message.rabbitmq.spring.MessageSender"
           init-method="init">
     </bean>
