@@ -22,3 +22,8 @@ monk.rabbit.mq.queue          = ${monk_rabbit_mq_queue}
 
 elastic.address  = ${elastic_address}
 elastic.cluster.name  = ${elastic_cluster_name}
+
+monk.dubbo.application.name = ${monk_dubbo_application_name}
+monk.dubbo.port = ${monk_dubbo_port}
+monk.zookeeper.address = ${monk_zookeeper_address}
+

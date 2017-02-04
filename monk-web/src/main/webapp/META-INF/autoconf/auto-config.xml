@@ -47,6 +47,12 @@
         <property name="elastic.cluster.name" defaultValue="gry-local"
                   description="elastic cluster name"/>
 
+        <property name="monk.dubbo.application.name" defaultValue="gry"
+                  description="dubbo application name"/>
+        <property name="monk.dubbo.port" defaultValue="20882"
+                  description="dubbo port"/>
+        <property name="monk.zookeeper.address" defaultValue="zookeeper://localhost:8181"
+                  description="zookeeper address"/>
 
     </group>
 

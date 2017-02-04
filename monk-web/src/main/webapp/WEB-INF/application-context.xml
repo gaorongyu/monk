@@ -10,6 +10,7 @@
     <import resource="spring-mvc.xml" />
     <import resource="classpath*:mybatis-config.xml" />
     <import resource="classpath*:biz-context.xml" />
+    <import resource="dubbo.xml" />
 
     <!--
     -->
