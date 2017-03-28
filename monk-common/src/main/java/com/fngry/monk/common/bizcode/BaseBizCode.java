@@ -30,14 +30,17 @@ public class BaseBizCode implements IBizCode {
         this.message = message;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public String getMessage(Object... args) {
         return message != null
                 ? String.format(this.message, args) : "";
