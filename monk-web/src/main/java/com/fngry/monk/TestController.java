@@ -88,4 +88,10 @@ public class TestController {
         return orderInfoQueryHandler.queryOrderInfo(queryRequest);
     }
 
+    @RequestMapping("plugin_query_plugin")
+    @ResponseBody
+    public Object queryPlugin(String bizType, String opType) {
+        return testService.getPlugin(bizType, opType);
+    }
+
 }

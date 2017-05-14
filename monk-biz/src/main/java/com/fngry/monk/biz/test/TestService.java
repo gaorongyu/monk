@@ -7,4 +7,6 @@ public interface TestService {
 
     public Object test();
 
+    public String getPlugin(String bizType, String opType);
+
 }
