@@ -77,7 +77,7 @@ public class PluginManager implements ApplicationContextAware, InitializingBean 
         String identity = getPluginIdentity(bizPlugin);
 
         if (StringUtil.isBlank(pluginContext.get(identity))) {
-            pluginContext.put(getPluginIdentity(bizPlugin), beanName);
+            pluginContext.put(identity, beanName);
         }
     }
 
