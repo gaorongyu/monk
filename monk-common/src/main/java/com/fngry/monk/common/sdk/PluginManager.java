@@ -3,9 +3,10 @@ package com.fngry.monk.common.sdk;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import com.fngry.monk.common.util.StringUtil;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * Created by gaorongyu on 2017/5/14.
  */
 @Repository("pluginManager")
-public class PluginManager implements ApplicationContextAware, InitializingBean {
+public class PluginManager implements IPluginManager, ApplicationContextAware {
 
     private static final String ENHANCER_BY_CGLIB = "EnhancerBySpringCGLIB";
 
@@ -33,31 +34,32 @@ public class PluginManager implements ApplicationContextAware, InitializingBean 
         return (T) applicationContext.getBean(beanName);
     }
 
-    /**
-     * 初始化bean时 init方法之前调用
-     *
-     * @throws Exception
-     */
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        String[] beanDefinitionNames = this.applicationContext.getBeanDefinitionNames();
-
-        for (String beanName : beanDefinitionNames) {
-            Class<?> clazz = applicationContext.getBean(beanName).getClass();
-
-            if (clazz.getName().contains(ENHANCER_BY_CGLIB)) {
-                clazz = clazz.getSuperclass();
-            }
-            if (isBizPlugin(clazz)) {
-                initBizPlugin(beanName, clazz);
-            }
-        }
-
+    @PostConstruct
+    public void init() {
+        System.out.println("init");
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void initPlugin(String beanName, Object bean) throws Exception {
+        Class<?> clazz = bean.getClass();
+
+        if (clazz.getName().contains(ENHANCER_BY_CGLIB)) {
+            clazz = clazz.getSuperclass();
+        }
+        if (isBizPlugin(clazz)) {
+            initBizPlugin(beanName, clazz);
+        }
+    }
+
+    @Override
+    public void postInitPlugin() throws Exception {
+        // after init plugin operation eg. subscribe mq message
+
     }
 
     private boolean isBizPlugin(Class clazz) {
