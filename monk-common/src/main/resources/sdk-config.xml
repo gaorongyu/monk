@@ -8,7 +8,7 @@
         <property name="pluginManagerList" >
             <list>
                 <ref bean="pluginManager" />
-                <ref bean="mBeanAssembler" />
+                <ref bean="monkMBeanInfoAssembler" />
             </list>
         </property>
     </bean>
