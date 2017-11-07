@@ -93,7 +93,7 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
             targetClazz = bean.getClass();
         }
 
-        if (targetClazz.isAnnotationPresent(JmxResource.class)) {
+        if (targetClazz != null && targetClazz.isAnnotationPresent(JmxResource.class)) {
             injectMBean(bean, beanName);
         }
     }
