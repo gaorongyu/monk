@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by gaorongyu on 2017/5/14.
  */
-@Repository("pluginManager")
-public class PluginManager implements IPluginManager, ApplicationContextAware {
+@Repository("bizPluginManager")
+public class BizPluginManager implements IPluginManager, ApplicationContextAware {
 
     private static final String ENHANCER_BY_CGLIB = "EnhancerBySpringCGLIB";
 

@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContextAware;
  * 插件容器 getBean()统一入口
  * Created by gaorongyu on 2017/11/6.
  */
-public class IPluginManagerHolder implements ApplicationContextAware, InitializingBean {
+public class PluginManagerHolder implements ApplicationContextAware, InitializingBean {
 
     private List<IPluginManager> pluginManagerList;
 

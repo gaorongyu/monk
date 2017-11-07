@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="messageReceiver" class="com.fngry.monk.common.sdk.IPluginManagerHolder" >
+    <bean id="pluginManagerHolder" class="com.fngry.monk.common.sdk.PluginManagerHolder" >
         <property name="pluginManagerList" >
             <list>
-                <ref bean="pluginManager" />
+                <ref bean="bizPluginManager" />
                 <ref bean="monkMBeanInfoAssembler" />
             </list>
         </property>

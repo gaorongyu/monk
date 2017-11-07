@@ -3,7 +3,7 @@ package com.fngry.monk.biz.test;
 import com.fngry.monk.common.jmx.JmxOperation;
 import com.fngry.monk.common.jmx.JmxResource;
 import com.fngry.monk.common.sdk.BizPlugin;
-import com.fngry.monk.common.sdk.PluginManager;
+import com.fngry.monk.common.sdk.BizPluginManager;
 import com.fngry.monk.dao.test.TestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class TestServiceImpl implements TestService {
 
     @Autowired
-    private PluginManager pluginManager;
+    private BizPluginManager bizPluginManager;
 
     @Autowired
     private TestMapper testMapper;
@@ -31,7 +31,7 @@ public class TestServiceImpl implements TestService {
     @JmxOperation
     @Override
     public String getPlugin(String bizType, String opType) {
-        Object bean = pluginManager.getPlugin(bizType, opType);
+        Object bean = bizPluginManager.getPlugin(bizType, opType);
         return bean.getClass().getName();
     }
 
