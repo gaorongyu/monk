@@ -1,7 +1,10 @@
 package com.fngry.monk.common.util;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.springframework.util.CollectionUtils;
 
 /**
  * Created by gaorongyu on 16/12/13.
@@ -37,6 +40,14 @@ public class CollectionUtil {
             list.add(originList.subList(fromIndex, toIndex));
         }
         return list;
+    }
+
+    public static boolean isEmpty(Collection<?> collection) {
+        return CollectionUtils.isEmpty(collection);
+    }
+
+    public static boolean isNotEmpty(Collection<?> collection) {
+        return !CollectionUtils.isEmpty(collection);
     }
 
 }

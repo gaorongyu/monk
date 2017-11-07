@@ -1,5 +1,7 @@
 package com.fngry.monk.biz.test;
 
+import com.fngry.monk.common.jmx.JmxOperation;
+import com.fngry.monk.common.jmx.JmxResource;
 import com.fngry.monk.common.sdk.BizPlugin;
 import com.fngry.monk.common.sdk.PluginManager;
 import com.fngry.monk.dao.test.TestMapper;
@@ -9,8 +11,9 @@ import org.springframework.stereotype.Service;
 /**
  * Created by gaorongyu on 16/11/24.
  */
+@JmxResource
 @BizPlugin(bizType = "TEST", opType = "READ_XML")
-@Service
+@Service("testService")
 public class TestServiceImpl implements TestService {
 
     @Autowired
@@ -25,6 +28,7 @@ public class TestServiceImpl implements TestService {
         return testMapper.selectCount();
     }
 
+    @JmxOperation
     @Override
     public String getPlugin(String bizType, String opType) {
         Object bean = pluginManager.getPlugin(bizType, opType);

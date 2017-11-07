@@ -6,7 +6,10 @@
 
     <bean id="messageReceiver" class="com.fngry.monk.common.sdk.IPluginManagerHolder" >
         <property name="pluginManagerList" >
-            <ref bean="pluginManager" />
+            <list>
+                <ref bean="pluginManager" />
+                <ref bean="mBeanAssembler" />
+            </list>
         </property>
     </bean>
 
