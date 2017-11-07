@@ -69,8 +69,8 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
 
     @Override
     public void initPlugin(String beanName, Object bean) throws Exception {
-        Class<?> clazz = bean.getClass();
-        Class<?> targetClazz = clazz;
+        Class clazz = bean.getClass();
+        Class targetClazz = null;
 
         if (clazz.getName().contains(ENHANCER_BY_CGLIB)
                 || clazz.getName().contains(ENHANCER_BY_SPRING_CGLIB)) {
@@ -89,6 +89,8 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
 
                 targetClazz = targetObject.getClass();
             }
+        } else {
+            targetClazz = bean.getClass();
         }
 
         if (targetClazz.isAnnotationPresent(JmxResource.class)) {
