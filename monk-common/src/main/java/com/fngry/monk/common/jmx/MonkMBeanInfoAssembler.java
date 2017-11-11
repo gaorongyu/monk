@@ -70,7 +70,7 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
                 continue;
             }
             // from super.getOperationInfo()
-            if(!method.isSynthetic() && Object.class != method.getDeclaringClass()) {
+            if (!method.isSynthetic() && Object.class != method.getDeclaringClass()) {
                 ModelMBeanOperationInfo info = null;
                 PropertyDescriptor pd = BeanUtils.findPropertyForMethod(method);
                 Descriptor desc;
@@ -148,6 +148,14 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
         }
     }
 
+    @Override
+    public void postInitPlugin() throws Exception {
+        ObjectName adapterName = new ObjectName("monkAgent:name=htmladapter,port=8082");
+        HtmlAdaptorServer adapter = new HtmlAdaptorServer();
+        server.registerMBean(adapter, adapterName);
+        adapter.start();
+    }
+
     /**
      * 注册MBean
      * @param bean
@@ -162,14 +170,6 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
 
         ObjectName objectName = new ObjectName("monkJmxBean:name=$" + beanName + "$");
         server.registerMBean(modelMBean, objectName);
-    }
-
-    @Override
-    public void postInitPlugin() throws Exception {
-        ObjectName adapterName = new ObjectName("monkAgent:name=htmladapter,port=8082");
-        HtmlAdaptorServer adapter = new HtmlAdaptorServer();
-        server.registerMBean(adapter, adapterName);
-        adapter.start();
     }
 
     /**

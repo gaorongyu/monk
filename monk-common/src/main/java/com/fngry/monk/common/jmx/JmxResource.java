@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.TYPE;
 
 /**
+ * MBean annotation
  * Created by gaorongyu on 2017/11/7.
  */
 @Target({ TYPE })
