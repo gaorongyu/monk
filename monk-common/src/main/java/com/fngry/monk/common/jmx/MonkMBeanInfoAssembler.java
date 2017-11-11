@@ -1,13 +1,16 @@
 package com.fngry.monk.common.jmx;
 
+import java.beans.PropertyDescriptor;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.management.Descriptor;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.MBeanServerFactory;
@@ -21,6 +24,7 @@ import com.fngry.monk.common.sdk.IPluginManager;
 import com.fngry.monk.common.util.CollectionUtil;
 import com.sun.jdmk.comm.HtmlAdaptorServer;
 import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.beans.BeanUtils;
 import org.springframework.jmx.export.assembler.AbstractReflectiveMBeanInfoAssembler;
 import org.springframework.stereotype.Component;
 
@@ -58,8 +62,54 @@ public class MonkMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssembler
 
     @Override
     public ModelMBeanOperationInfo[] getOperationInfo(Object managedBean, String beanKey) {
-        // todo
-        return super.getOperationInfo(managedBean, beanKey);
+        Method[] methods = this.getClassToExpose(managedBean).getMethods();
+        List<ModelMBeanOperationInfo> infos = new ArrayList<>();
+
+        for (Method method : methods) {
+            if (!method.isAnnotationPresent(JmxOperation.class)) {
+                continue;
+            }
+            // from super.getOperationInfo()
+            if(!method.isSynthetic() && Object.class != method.getDeclaringClass()) {
+                ModelMBeanOperationInfo info = null;
+                PropertyDescriptor pd = BeanUtils.findPropertyForMethod(method);
+                Descriptor desc;
+                if (pd != null && (method.equals(pd.getReadMethod()) && this.includeReadAttribute(method, beanKey)
+                        || method.equals(pd.getWriteMethod()) && this.includeWriteAttribute(method, beanKey))) {
+                    info = this.createModelMBeanOperationInfo(method, pd.getName(), beanKey);
+                    desc = info.getDescriptor();
+                    if (method.equals(pd.getReadMethod())) {
+                        desc.setField("role", "getter");
+                    } else {
+                        desc.setField("role", "setter");
+                    }
+
+                    desc.setField("visibility", Integer.valueOf(4));
+                    if (this.isExposeClassDescriptor()) {
+                        desc.setField("class", this.getClassForDescriptor(managedBean).getName());
+                    }
+
+                    info.setDescriptor(desc);
+                }
+
+                if (info == null && this.includeOperation(method, beanKey)) {
+                    info = this.createModelMBeanOperationInfo(method, method.getName(), beanKey);
+                    desc = info.getDescriptor();
+                    desc.setField("role", "operation");
+                    if (this.isExposeClassDescriptor()) {
+                        desc.setField("class", this.getClassForDescriptor(managedBean).getName());
+                    }
+
+                    this.populateOperationDescriptor(desc, method, beanKey);
+                    info.setDescriptor(desc);
+                }
+
+                if (info != null) {
+                    infos.add(info);
+                }
+            }
+        }
+        return infos.toArray(new ModelMBeanOperationInfo[infos.size()]);
     }
 
     @PostConstruct
