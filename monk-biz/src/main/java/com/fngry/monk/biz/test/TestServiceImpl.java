@@ -1,5 +1,7 @@
 package com.fngry.monk.biz.test;
 
+import com.fngry.monk.biz.service.config.event.DataChangeEvent;
+import com.fngry.monk.biz.service.config.event.EventDispatcher;
 import com.fngry.monk.common.jmx.JmxOperation;
 import com.fngry.monk.common.jmx.JmxResource;
 import com.fngry.monk.common.sdk.BizPlugin;
@@ -33,6 +35,12 @@ public class TestServiceImpl implements TestService {
     public String getPlugin(String bizType, String opType) {
         Object bean = bizPluginManager.getPlugin(bizType, opType);
         return bean.getClass().getName();
+    }
+
+    @JmxOperation
+    public void eventDispatch(String groupKey) {
+        DataChangeEvent event = new DataChangeEvent(this, groupKey, System.currentTimeMillis());
+        EventDispatcher.fireEvent(event);
     }
 
 }
