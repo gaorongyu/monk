@@ -72,6 +72,19 @@ public class ConfigControl implements ApplicationContextAware {
         return dataId + CONCAT_GROUP_KEY + group;
     }
 
+    public static String getGroupKeys(List<String> changedGroups) {
+        StringBuffer groupKeys = new StringBuffer();
+        for (int i = 0; i < changedGroups.size(); i++) {
+            String groupKey = changedGroups.get(i);
+            groupKeys.append(groupKey);
+
+            if (i < changedGroups.size() - 1) {
+                groupKeys.append(ConfigControl.SEPARATOR_GROUP_KEY);
+            }
+        }
+        return groupKeys.toString();
+    }
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         configService = (ConfigService) applicationContext.getBean("configService");

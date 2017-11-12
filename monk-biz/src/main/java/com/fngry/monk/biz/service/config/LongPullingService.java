@@ -152,15 +152,7 @@ public class LongPullingService extends AbstractEventListener {
             try {
                 PrintWriter out = asyncContext.getResponse().getWriter();
 
-                StringBuffer groupKeys = new StringBuffer();
-                for (int i = 0; i < changedGroups.size(); i++) {
-                    String groupKey = changedGroups.get(i);
-                    groupKeys.append(groupKey);
-
-                    if (i < changedGroups.size() - 1) {
-                        groupKeys.append(ConfigControl.SEPARATOR_GROUP_KEY);
-                    }
-                }
+                String groupKeys = ConfigControl.getGroupKeys(changedGroups);
                 out.println("groupKeys:" + groupKeys + ";changeTime:" + changeTime);
                 out.flush();
             } catch (IOException e) {
