@@ -26,11 +26,15 @@ public class ConfigServerInner {
 
     public void doPollingConfig(HttpServletRequest req, HttpServletResponse resp, String probeModify) {
         Map<String, String> clientMd5Map = ConfigControl.getClientMd5Map(probeModify);
-        // 长轮询
+        // 根据参数 进行长轮询或即时查询
         if (longPullingService.isSupportLongPulling(req)) {
             longPullingService.addLongPullingClient(req, resp, clientMd5Map);
+        } else {
+            queryConfigChange(req, resp, clientMd5Map);
         }
-        // 支持短轮询
+    }
+
+    private void queryConfigChange(HttpServletRequest req, HttpServletResponse resp, Map<String, String> clientMd5Map) {
         List<String> changedGroups = ConfigControl.compareMd5(req, resp, clientMd5Map);
         if (changedGroups.size() > 0) {
             try {
