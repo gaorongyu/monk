@@ -26,6 +26,11 @@ public class ConfigControl implements ApplicationContextAware {
 
     public static final String SEPARATOR_GROUP_KEY = ",";
 
+    /**
+     * groupKeyL连接符 dataId_group
+     */
+    public static final String CONCAT_GROUP_KEY = "_";
+
     private static ConfigService configService;
 
     /**
@@ -61,6 +66,10 @@ public class ConfigControl implements ApplicationContextAware {
             }
         }
         return changedGroupKeys;
+    }
+
+    public static String generateGroupKey(String dataId, String group) {
+        return dataId + CONCAT_GROUP_KEY + group;
     }
 
     @Override

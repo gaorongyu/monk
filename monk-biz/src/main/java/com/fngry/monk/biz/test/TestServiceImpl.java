@@ -1,6 +1,6 @@
 package com.fngry.monk.biz.test;
 
-import com.fngry.monk.biz.service.config.event.DataChangeEvent;
+import com.fngry.monk.biz.service.config.event.LocalDataChangeEvent;
 import com.fngry.monk.biz.service.config.event.EventDispatcher;
 import com.fngry.monk.common.jmx.JmxOperation;
 import com.fngry.monk.common.jmx.JmxResource;
@@ -39,7 +39,7 @@ public class TestServiceImpl implements TestService {
 
     @JmxOperation
     public void eventDispatch(String groupKey) {
-        DataChangeEvent event = new DataChangeEvent(this, groupKey, System.currentTimeMillis());
+        LocalDataChangeEvent event = new LocalDataChangeEvent(this, groupKey, System.currentTimeMillis());
         EventDispatcher.fireEvent(event);
     }
 

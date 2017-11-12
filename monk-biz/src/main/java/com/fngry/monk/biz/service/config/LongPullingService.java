@@ -18,7 +18,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fngry.monk.biz.service.config.event.DataChangeEvent;
+import com.fngry.monk.biz.service.config.event.LocalDataChangeEvent;
 import com.fngry.monk.biz.service.config.event.Event;
 import com.fngry.monk.biz.service.config.listener.AbstractEventListener;
 import com.fngry.monk.common.util.StringUtil;
@@ -57,14 +57,14 @@ public class LongPullingService extends AbstractEventListener {
     @Override
     public List<Class<? extends Event>> interest() {
         List<Class<? extends Event>> list = new ArrayList<>();
-        list.add(DataChangeEvent.class);
+        list.add(LocalDataChangeEvent.class);
         return list;
     }
 
     @Override
     public void onEvent(Event event) {
-        if (event instanceof DataChangeEvent) {
-            DataChangeEvent evt = (DataChangeEvent) event;
+        if (event instanceof LocalDataChangeEvent) {
+            LocalDataChangeEvent evt = (LocalDataChangeEvent) event;
             scheduledExecutorService.execute(new DataChangeTask(evt.getGroupKey(), evt.getChangeTime()));
         }
     }

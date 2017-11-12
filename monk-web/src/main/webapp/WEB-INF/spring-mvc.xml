@@ -17,21 +17,21 @@
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <constructor-arg value="UTF-8"/>
             </bean>
-            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >-->
-                <!--<property name="supportedMediaTypes">-->
-                    <!--<list>-->
-                        <!--<value>application/json;charset=UTF-8</value>-->
-                        <!--<value>text/html;charset=UTF-8</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-                <!--&lt;!&ndash; 配置 objectMapper 处理日期等字段-->
-                <!--<property name="objectMapper">-->
-                    <!--<bean class=" 继承 com.fasterxml.jackson.databind.ObjectMapper.java">-->
-                        <!--<property name="serializationInclusion" value="ALWAYS"/>-->
-                    <!--</bean>-->
-                <!--</property>-->
-                <!--&ndash;&gt;-->
-            <!--</bean>-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+                <!-- 配置 objectMapper 处理日期等字段
+                <property name="objectMapper">
+                    <bean class=" 继承 com.fasterxml.jackson.databind.ObjectMapper.java">
+                        <property name="serializationInclusion" value="ALWAYS"/>
+                    </bean>
+                </property>
+                -->
+            </bean>
         </mvc:message-converters>
         <mvc:argument-resolvers>
             <!-- @PageableDefault -->

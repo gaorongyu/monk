@@ -1,28 +1,28 @@
 package com.fngry.monk.biz.service.config.event;
 
 /**
- * 数据变更事件
- * Created by gaorongyu on 2017/11/11.
+ * 配置变更事件 通知集群其他机器更新配置
+ *
+ * Created by gaorongyu on 2017/11/12.
  */
-public class DataChangeEvent extends Event {
+public class ConfigDataChangeEvent extends Event {
 
     private String groupKey;
 
     private long changeTime;
 
-    public DataChangeEvent() {
+    public ConfigDataChangeEvent() {
         super(null);
     }
 
-    public DataChangeEvent(Object source) {
+    public ConfigDataChangeEvent(Object source) {
         super(source);
     }
 
-    public DataChangeEvent(Object source, String groupKey, long changeTime) {
+    public ConfigDataChangeEvent(Object source, String groupKey, long changeTime) {
         super(source);
         this.groupKey = groupKey;
         this.changeTime = changeTime;
-
     }
 
     public String getGroupKey() {

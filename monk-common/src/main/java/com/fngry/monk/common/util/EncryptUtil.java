@@ -16,4 +16,8 @@ public class EncryptUtil {
         return DigestUtils.sha1Hex(origin.toString());
     }
 
+    public static String md5Hex(String content) {
+        return DigestUtils.md5Hex(content);
+    }
+
 }

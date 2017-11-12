@@ -16,7 +16,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 /**
  * Created by gaorongyu on 2017/11/11.
  */
-@WebServlet(urlPatterns = "/config", asyncSupported = true)
+@WebServlet(urlPatterns = "/config_pulling", asyncSupported = true)
 public class ConfigServlet extends HttpServlet {
 
     private static final String PARAM_PROBE_MODIFY = "probeModify";
