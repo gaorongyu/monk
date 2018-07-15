@@ -18,6 +18,13 @@ public class  DigestLogger {
         this.template = template;
     }
 
+    /**
+     * need app set logger with digest.name in logback.xml
+     *
+     * @param name
+     * @param value
+     * @return
+     */
     public static DigestLogger newLogger(String name, String... value) {
         Logger logger = LoggerFactory.getLogger("digest." + name);
 
