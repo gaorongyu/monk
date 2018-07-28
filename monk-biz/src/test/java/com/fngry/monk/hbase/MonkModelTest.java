@@ -70,5 +70,28 @@ public class MonkModelTest {
         System.out.println(bizOrderResult);
         Assert.assertEquals(new BigDecimal("23.45"), bizOrderResult.getAmount());
     }
+    @Test
+    public void testDeleteBizOrderByRowKey() throws Exception {
+        HbaseClient hbaseClient = new HBaseClientImpl();
+
+        BizOrder bizOrder = new BizOrder();
+        bizOrder.setBizName("testBizName");
+        bizOrder.setSource("fngry");
+        bizOrder.setOrderNo("orderNo-002");
+
+        byte[] rowKey = bizOrder.resolveRowkey();
+
+        BizOrder bizOrderResultBeforeDelete = hbaseClient.select(bizOrder.getClass(), rowKey);
+        Assert.assertNotNull(bizOrderResultBeforeDelete);
+
+        // 删除
+        hbaseClient.delete(bizOrder.getClass(), rowKey);
+
+        BizOrder bizOrderResult = hbaseClient.select(bizOrder.getClass(), rowKey);
+
+        System.out.println(bizOrderResult);
+        Assert.assertNull(bizOrderResult);
+    }
+
 
 }
