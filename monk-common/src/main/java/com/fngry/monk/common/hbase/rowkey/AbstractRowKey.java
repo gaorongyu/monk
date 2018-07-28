@@ -24,7 +24,7 @@ public abstract class AbstractRowKey implements RowKey {
 
     @Override
     public void set(Object object) {
-        Field[] fields = object.getClass().getFields();
+        Field[] fields = this.getClass().getFields();
 
         for (Field field : fields) {
 
@@ -89,8 +89,17 @@ public abstract class AbstractRowKey implements RowKey {
 
     @Override
     public Pair<byte[], byte[]> resolveScan(int components) {
+        byte[] start = new byte[this.length];
+        byte[] end = new byte[this.length];
 
+        int len = resolve(start, components);
 
-        return null;
+        System.arraycopy(start, 0, end, 0, len);
+        for (int i = len; i < end.length; i++) {
+            end[i] = (byte) 0XFF;
+        }
+
+        return Pair.of(start, end);
     }
+
 }
