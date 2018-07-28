@@ -35,6 +35,31 @@ public class MonkModelTest {
     }
 
     @Test
+    public void testUpdateBizOrder() {
+        HbaseClient hbaseClient = new HBaseClientImpl();
+
+        BizOrder bizOrder = new BizOrder();
+
+        bizOrder.setBizName("testBizName");
+        bizOrder.setOrderNo("orderNo-002");
+        bizOrder.setSource("fngry");
+
+        byte[] rowKey = bizOrder.resolveRowkey();
+
+        // before update
+        BizOrder bizOrder4Update = hbaseClient.select(bizOrder.getClass(), rowKey);
+
+        // update amount
+        bizOrder4Update.setAmount(new BigDecimal("100.45"));
+        rowKey = hbaseClient.upsert(bizOrder4Update);
+
+        BizOrder bizOrderUpdated = hbaseClient.select(bizOrder.getClass(), rowKey);
+
+        Assert.assertEquals(new BigDecimal("100.45"), bizOrderUpdated.getAmount());
+        System.out.println(rowKey);
+    }
+
+    @Test
     public void testScantBizOrder() throws Exception {
         HbaseClient hbaseClient = new HBaseClientImpl();
 

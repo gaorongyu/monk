@@ -67,10 +67,9 @@ public class HBaseClientImpl implements HbaseClient {
     public <T extends HbaseModel> T select(Class<T> clazz, byte[] rowKey) {
         HColumnFamilySupport columnFamily = HColumnFamilySupport.get(clazz);
         TableName tableName = TableName.valueOf(columnFamily.get().table());
-        T model;
+        T model = null;
 
         try {
-            model = clazz.newInstance();
             Table table = connection.getTable(tableName);
 
             Get get = new Get(rowKey);
@@ -78,6 +77,7 @@ public class HBaseClientImpl implements HbaseClient {
 
             Result result = table.get(get);
             if (result != null) {
+                model = clazz.newInstance();
                 model.read(result);
             }
         } catch (Exception e) {
