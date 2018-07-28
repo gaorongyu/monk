@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @HColumnFamily(table = "monk_biz_order", value = "f")
 @MonkModelProcessor(target = BizOrderProcessor.class)
-public class BizOrder extends MonkModelSupport implements MonkModel {
+public class BizOrder extends MonkModelSupport {
 
     @HColumn("jobId")
     private String jobId;
