@@ -6,12 +6,10 @@ import com.fngry.monk.common.hbase.HbaseModel;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.HTable;
-import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HBaseClientImpl implements HbaseClient {
@@ -23,10 +21,14 @@ public class HBaseClientImpl implements HbaseClient {
     private Connection connection;
 
     public HBaseClientImpl() {
+        this("localhost:2181");
+    }
+
+    public HBaseClientImpl(String zkAddress) {
         conf = HBaseConfiguration.create();
-        conf.set("hbase.zookeeper.property.clientPort", "2181");
-        conf.set("hbase.zookeeper.quorum", "slave01.xxx.com,master01.xxx.com,master02.xxx.com");
-        conf.set("zookeeper.znode.parent","/hbase-unsecure");
+        conf.set("hbase.zookeeper.quorum", zkAddress);
+//        conf.set("hbase.zookeeper.property.clientPort", "2181");
+//        conf.set("zookeeper.znode.parent","/hbase-unsecure");
 
         try {
             connection = ConnectionFactory.createConnection(conf);
@@ -41,12 +43,11 @@ public class HBaseClientImpl implements HbaseClient {
         HColumnFamilySupport columnFamily = HColumnFamilySupport.get(model.getClass());
 
         TableName tableName = TableName.valueOf(columnFamily.get().table());
-        HTable table = null;
 
         int tryTimes = 0;
         while (tryTimes < RETRY_TIMES) {
             try {
-                table = (HTable) connection.getTable(tableName);
+                Table table = connection.getTable(tableName);
                 Put put = new Put(rowKey);
                 model.write(put);
 
@@ -63,23 +64,80 @@ public class HBaseClientImpl implements HbaseClient {
     }
 
     @Override
-    public <T extends HbaseModel> T select(Class<?> clazz, byte[] rowKey) {
-        return null;
+    public <T extends HbaseModel> T select(Class<T> clazz, byte[] rowKey) {
+        HColumnFamilySupport columnFamily = HColumnFamilySupport.get(clazz);
+        TableName tableName = TableName.valueOf(columnFamily.get().table());
+        T model;
+
+        try {
+            model = clazz.newInstance();
+            Table table = connection.getTable(tableName);
+
+            Get get = new Get(rowKey);
+            get.addFamily(columnFamily.name());
+
+            Result result = table.get(get);
+            if (result != null) {
+                model.read(result);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return model;
     }
 
     @Override
-    public byte[] delete(Class<? extends HbaseModel> clazz, byte[] rowKey) {
-        return new byte[0];
+    public <T extends HbaseModel> byte[] delete(Class<T> clazz, byte[] rowKey) {
+        HColumnFamilySupport columnFamily = HColumnFamilySupport.get(clazz);
+        TableName tableName = TableName.valueOf(columnFamily.get().table());
+
+        try {
+            Table table = connection.getTable(tableName);
+            Delete delete = new Delete(rowKey);
+            table.delete(delete);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return rowKey;
     }
 
     @Override
     public <T extends HbaseModel> List<T> scan(Class<T> clazz, byte[] startRow, byte[] endRow) {
-        return null;
+        return scan(clazz, startRow, endRow, -1);
     }
 
     @Override
-    public <T extends HbaseModel> List<T> scan(Class<T> clazz, byte[] startRow, byte[] endRow, int limit) {
-        return null;
+    public <T extends HbaseModel> List<T>  scan(Class<T> clazz, byte[] startRow, byte[] endRow, int limit) {
+        HColumnFamilySupport columnFamily = HColumnFamilySupport.get(clazz);
+        TableName tableName = TableName.valueOf(columnFamily.get().table());
+
+        List<T> list = new ArrayList<>();
+        int cnt = 0;
+
+        try {
+            Scan scan = new Scan()
+                    .withStartRow(startRow)
+                    .withStopRow(endRow);
+            scan.addFamily(columnFamily.name());
+
+            Table table = connection.getTable(tableName);
+            ResultScanner scanner = table.getScanner(scan);
+
+            for (Result result : scanner) {
+                T t = clazz.newInstance();
+                t.read(result);
+                list.add(t);
+
+                if (limit != -1 && cnt >= limit) {
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
     }
 
 }
