@@ -76,7 +76,7 @@ public class HBaseClientImpl implements HbaseClient {
             get.addFamily(columnFamily.name());
 
             Result result = table.get(get);
-            if (result != null) {
+            if (result != null && !result.isEmpty()) {
                 model = clazz.newInstance();
                 model.read(result);
             }
