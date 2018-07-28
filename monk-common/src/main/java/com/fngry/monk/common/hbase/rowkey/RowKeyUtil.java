@@ -10,7 +10,7 @@ public class RowKeyUtil {
         Object[] result = new Object[fieldNames.length];
 
         for (int i = 0; i < result.length; i++) {
-            read(target, fieldNames[i]);
+            result[i] = read(target, fieldNames[i]);
         }
         return result;
     }
