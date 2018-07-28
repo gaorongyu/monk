@@ -80,6 +80,7 @@ public abstract class AbstractRowKey implements RowKey {
             RowKeyComponent component = COMPONENTS[i];
             try {
                 component.write(this, result, index);
+                index = index + component.length();
             } catch (Exception e) {
                 throw new RuntimeException("fail to resolve " + component.name(), e);
             }
