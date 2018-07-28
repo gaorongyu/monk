@@ -11,11 +11,11 @@ public class BizOrderRowKey extends AbstractRowKey {
             new MD5Component("sourceOrderNo", "source", "orderNo")
     };
 
-    private String bizName;
+    public String bizName;
 
-    private String source;
+    public String source;
 
-    private String orderNo;
+    public String orderNo;
 
     public BizOrderRowKey() {
         super(COMPONENTS);
