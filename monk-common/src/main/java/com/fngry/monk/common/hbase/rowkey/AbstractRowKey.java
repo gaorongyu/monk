@@ -4,6 +4,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 public abstract class AbstractRowKey implements RowKey {
 
@@ -14,7 +15,7 @@ public abstract class AbstractRowKey implements RowKey {
 
     public AbstractRowKey(RowKeyComponent[] components) {
         this.COMPONENTS = components;
-        this.length = components.length;
+        this.length = Arrays.stream(COMPONENTS).map(e -> e.length()).reduce((a, b) -> a + b).get();
     }
 
     @Override
