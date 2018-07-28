@@ -42,12 +42,12 @@ public class LogAnnotationAdvisor extends AbstractPointcutAdvisor {
 
         @Override
         public ClassFilter getClassFilter() {
-            return null;
+            return this.classFilter;
         }
 
         @Override
         public MethodMatcher getMethodMatcher() {
-            return null;
+            return this.methodMatcher;
         }
     }
 
