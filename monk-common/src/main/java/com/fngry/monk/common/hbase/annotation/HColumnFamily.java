@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 public @interface HColumnFamily {
 
     String table() default "";

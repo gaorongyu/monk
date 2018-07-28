@@ -19,6 +19,10 @@ public class PlainComponent implements RowKeyComponent {
         this.length = length;
     }
 
+    public PlainComponent(String name, String fieldName, int length) {
+        this(name, fieldName, 0, length);
+    }
+
     @Override
     public int length() {
         return this.length;
