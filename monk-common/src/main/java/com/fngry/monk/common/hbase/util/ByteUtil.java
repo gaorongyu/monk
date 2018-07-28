@@ -3,6 +3,7 @@ package com.fngry.monk.common.hbase.util;
 import com.alibaba.fastjson.JSON;
 import org.apache.hadoop.hbase.util.Bytes;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +19,40 @@ public class ByteUtil {
     static {
         // todo
         OBJECT_TO_BYTE_FUNCTIONS.put(int.class, e -> Bytes.toBytes((int) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(long.class, e -> Bytes.toBytes((long) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(double.class, e -> Bytes.toBytes((double) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(float.class, e -> Bytes.toBytes((float) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(char.class, e -> Bytes.toBytes((char) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(boolean.class, e -> Bytes.toBytes((boolean) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(byte[].class, e -> (byte[]) e);
+        OBJECT_TO_BYTE_FUNCTIONS.put(Integer.class, e -> Bytes.toBytes((int) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(Long.class, e -> Bytes.toBytes((long) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(Double.class, e -> Bytes.toBytes((double) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(Float.class, e -> Bytes.toBytes((float) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(Character.class, e -> Bytes.toBytes((char) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(Boolean.class, e -> Bytes.toBytes((boolean) e));
+        OBJECT_TO_BYTE_FUNCTIONS.put(Byte[].class, e -> (byte[]) e);
+        OBJECT_TO_BYTE_FUNCTIONS.put(String.class, e -> Bytes.toBytes((String) e));
         OBJECT_TO_BYTE_FUNCTIONS.put(Date.class, e -> Bytes.toBytes(((Date) e).getTime()));
+        OBJECT_TO_BYTE_FUNCTIONS.put(BigDecimal.class, e -> Bytes.toBytes(((BigDecimal) e).toPlainString()));
 
         BYTE_TO_OBJECT_FUNCTIONS.put(int.class, e -> Bytes.toInt(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(long.class, e -> Bytes.toLong(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(double.class, e -> Bytes.toDouble(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(float.class, e -> Bytes.toFloat(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(char.class, e -> (char) Bytes.toInt(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(boolean.class, e -> Bytes.toBoolean(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(byte[].class, e -> e);
+        BYTE_TO_OBJECT_FUNCTIONS.put(Integer.class, e -> Bytes.toInt(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(Long.class, e -> Bytes.toLong(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(Double.class, e -> Bytes.toDouble(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(Float.class, e -> Bytes.toFloat(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(Character.class, e -> (char) Bytes.toInt(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(Boolean.class, e -> Bytes.toBoolean(e));
+        BYTE_TO_OBJECT_FUNCTIONS.put(Byte[].class, e -> e);
+        BYTE_TO_OBJECT_FUNCTIONS.put(String.class, e -> Bytes.toString(e));
         BYTE_TO_OBJECT_FUNCTIONS.put(Date.class, e -> new Date(Bytes.toLong(e)));
-
+        BYTE_TO_OBJECT_FUNCTIONS.put(BigDecimal.class, e -> new BigDecimal(Bytes.toString(e)));
     }
 
     private static Function<Object, byte[]> getToByteFunction(Class<?> clazz) {
