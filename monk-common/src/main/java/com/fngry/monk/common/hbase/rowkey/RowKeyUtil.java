@@ -19,7 +19,7 @@ public class RowKeyUtil {
         if (target instanceof Map) {
             return ((Map) target).get(fieldName);
         } else {
-            return FieldUtils.readDeclaredField(target, fieldName);
+            return FieldUtils.readDeclaredField(target, fieldName, true);
         }
     }
 
