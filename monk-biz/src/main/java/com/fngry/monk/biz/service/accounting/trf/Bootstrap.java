@@ -2,6 +2,7 @@ package com.fngry.monk.biz.service.accounting.trf;
 
 import com.fngry.monk.biz.hbase.model.MonkModel;
 import com.fngry.monk.biz.service.accounting.common.BizEntity;
+import com.fngry.monk.biz.service.accounting.common.SparkContextUtil;
 import com.fngry.monk.biz.service.accounting.trf.config.EntityConfig;
 import com.fngry.monk.biz.service.accounting.trf.config.TrfConfig;
 import com.fngry.monk.biz.service.accounting.trf.config.TrfJobConfig;
@@ -25,9 +26,7 @@ public class Bootstrap {
     public static void main(String[] args) {
         System.out.println(APP_NAME + " job start!!! ");
 
-        SparkConf sparkConf = new SparkConf().setAppName(APP_NAME)
-                .setMaster("local");
-        javaSparkContext = new JavaSparkContext(sparkConf);
+        javaSparkContext = SparkContextUtil.initSparkContext(APP_NAME);
 
         TrfJobConfig trfJobConfig = fetchTrfJobConfig();
 
