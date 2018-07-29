@@ -5,6 +5,7 @@ import com.fngry.monk.biz.service.accounting.common.BizEntity;
 import com.fngry.monk.biz.service.accounting.trf.config.EntityConfig;
 import com.fngry.monk.biz.service.accounting.trf.config.TrfConfig;
 import com.fngry.monk.biz.service.accounting.trf.config.TrfJobConfig;
+import com.fngry.monk.biz.service.accounting.trf.task.EntityCheckTask;
 import com.fngry.monk.biz.service.accounting.trf.task.ModelProcessTask;
 import com.fngry.monk.biz.service.accounting.trf.task.MysqlResultConvertTask;
 import com.fngry.monk.biz.service.accounting.trf.task.TransformTask;
@@ -24,7 +25,8 @@ public class Bootstrap {
     public static void main(String[] args) {
         System.out.println(APP_NAME + " job start!!! ");
 
-        SparkConf sparkConf = new SparkConf().setAppName(APP_NAME);
+        SparkConf sparkConf = new SparkConf().setAppName(APP_NAME)
+                .setMaster("local");
         javaSparkContext = new JavaSparkContext(sparkConf);
 
         TrfJobConfig trfJobConfig = fetchTrfJobConfig();
@@ -55,9 +57,9 @@ public class Bootstrap {
                 1,
                 new MysqlResultConvertTask());
         // 校验
-
+        JavaRDD<BizEntity> checkedRDD = bizEntityRDD.filter(new EntityCheckTask());
         // 字段转换
-        JavaRDD<MonkModel> modelRDD = bizEntityRDD.flatMap(new TransformTask(trfJobConfig.getJobId(), trfConfig));
+        JavaRDD<MonkModel> modelRDD = checkedRDD.flatMap(new TransformTask(trfJobConfig.getJobId(), trfConfig));
         // 持久化
         modelRDD.foreachPartition(new ModelProcessTask());
     }

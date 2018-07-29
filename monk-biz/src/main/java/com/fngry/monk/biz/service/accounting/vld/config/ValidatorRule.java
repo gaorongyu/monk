@@ -1,9 +1,9 @@
-package com.fngry.monk.biz.service.accounting.common.config;
+package com.fngry.monk.biz.service.accounting.vld.config;
 
 import java.io.Serializable;
 import java.util.Map;
 
-public class FilterRule implements Serializable {
+public class ValidatorRule implements Serializable {
 
     private static final long serialVersionUID = -3288879835577802346L;
 
@@ -11,7 +11,7 @@ public class FilterRule implements Serializable {
 
     private String ruleName;
 
-    private String filter;
+    private String validator;
 
     private Map<String, Object> params;
 
@@ -32,12 +32,13 @@ public class FilterRule implements Serializable {
         this.ruleName = ruleName;
     }
 
-    public String getFilter() {
-        return filter;
+
+    public String getValidator() {
+        return validator;
     }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setValidator(String validator) {
+        this.validator = validator;
     }
 
     public Map<String, Object> getParams() {
