@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 @MonkModelProcessor(target = BizOrderProcessor.class)
 public class BizOrder extends MonkModelSupport {
 
+    private static final long serialVersionUID = 4198305932452388632L;
+
     @HColumn("jobId")
     private String jobId;
 
@@ -44,6 +46,9 @@ public class BizOrder extends MonkModelSupport {
 
     @HColumn("parentOrderRowKey")
     private byte[] parentOrderRowKey;
+
+    @HColumn("remark")
+    private String remark;
 
     @Override
     public void setJobId(String jobId) {
@@ -134,4 +139,11 @@ public class BizOrder extends MonkModelSupport {
         this.parentOrderRowKey = parentOrderRowKey;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }
