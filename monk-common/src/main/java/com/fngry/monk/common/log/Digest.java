@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 public @interface Digest {
 
     /**
@@ -24,10 +24,10 @@ public @interface Digest {
 
     /**
      * log template
-     * SaleOrder, update, "${resp.succeeded}", "${args.orderId}", "${args.userId}"
+     * {"SaleOrder", "update", "${resp.succeeded}", "${args.orderId}", "${args.userId}"}
      * @return
      */
-    String valueTemplate();
+    String[] valueTemplate();
 
     /**
      * for async invoke resource
