@@ -24,7 +24,7 @@ public @interface Digest {
 
     /**
      * log template
-     * {"SaleOrder", "update", "${resp.succeeded}", "${args.orderId}", "${args.userId}"}
+     * {"SaleOrder", "update", "${resp.succeeded}", "${args0.orderId}", "${arg1.userId}"}
      * @return
      */
     String[] valueTemplate();

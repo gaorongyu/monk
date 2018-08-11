@@ -5,6 +5,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class DigestInterceptor extends LogInterceptor<Digest>{
 
@@ -16,19 +17,30 @@ public class DigestInterceptor extends LogInterceptor<Digest>{
     @Override
     protected Object invoke(MethodInvocation methodInvocation, Method specificMethod, Digest annotation) {
         long startTime = System.currentTimeMillis();
-        Object result = null;
-        Throwable throwable = null;
+        Object result;
 
+        CompletableFuture<Object> cf = null;
         try {
             result = methodInvocation.proceed();
+            cf = CompletableFuture.completedFuture(result);
         } catch (Throwable e) {
-            throwable = e;
-            e.printStackTrace();
+            cf.completeExceptionally(e);
         } finally {
             long endTime = System.currentTimeMillis();
-            doLog(annotation, methodInvocation, result, throwable, startTime, endTime);
+            if (annotation.async()) {
+                // async execute digest log
+                cf.handleAsync((s, t) -> {
+                    doLog(annotation, methodInvocation, s, t, startTime, endTime);
+                    return s;
+                });
+            } else {
+                cf.handle((s, t) -> {
+                    doLog(annotation, methodInvocation, s, t, startTime, endTime);
+                    return s;
+                });
+            }
         }
-        return result;
+        return cf.join();
     }
 
     private void doLog(Digest annotation, MethodInvocation methodInvocation, Object result,

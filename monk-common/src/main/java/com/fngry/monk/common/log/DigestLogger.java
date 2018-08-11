@@ -3,6 +3,7 @@ package com.fngry.monk.common.log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.script.ScriptException;
 import java.util.Map;
 
 public class  DigestLogger {
@@ -11,9 +12,9 @@ public class  DigestLogger {
 
     private final Logger logger;
 
-    private final String template;
+    private final String[] template;
 
-    public DigestLogger(Logger logger, String template) {
+    public DigestLogger(Logger logger, String[] template) {
         this.logger = logger;
         this.template = template;
     }
@@ -31,9 +32,8 @@ public class  DigestLogger {
         if (value == null || value.length == 0) {
             return new DigestLogger(logger, null);
         }
-        String template = createTemplate(value);
 
-        return new DigestLogger(logger, template);
+        return new DigestLogger(logger, value);
     }
 
     private static String createTemplate(String[] value) {
@@ -45,15 +45,17 @@ public class  DigestLogger {
     }
 
     private String renderTemplate(Map<String, Object> context, boolean succeeded, long startTime, long endTime) {
-
         StringBuffer logContent = new StringBuffer();
 
         logContent.append(succeeded ? "Y" : "N").append(SEPARATOR);
-        logContent.append(startTime).append("ms").append(SEPARATOR);
-        logContent.append(endTime).append("ms").append(SEPARATOR);
-        logContent.append(context.get("args")).append(SEPARATOR);
+        logContent.append(startTime).append(SEPARATOR);
+        logContent.append(endTime).append(SEPARATOR);
 
+        for (String valueExp : template) {
+            logContent.append(TemplateUtil.render(valueExp, context)).append(SEPARATOR);
+        }
         return logContent.toString();
     }
+
 
 }
