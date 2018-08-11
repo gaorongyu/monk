@@ -1,9 +1,10 @@
 package com.fngry.monk.common.log;
 
+import com.fngry.monk.common.log.tempalte.TemplateRenderManager;
+import com.fngry.monk.common.log.tempalte.TemplateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.script.ScriptException;
 import java.util.Map;
 
 public class  DigestLogger {
@@ -37,7 +38,11 @@ public class  DigestLogger {
     }
 
     private static String createTemplate(String[] value) {
-        return null;
+        StringBuffer templateDisplay = new StringBuffer();
+        for (String exp : value) {
+            templateDisplay.append(exp);
+        }
+        return templateDisplay.toString();
     }
 
     public void log(Map<String, Object> context, boolean succeeded, long startTime, long endTime) {
@@ -51,9 +56,8 @@ public class  DigestLogger {
         logContent.append(startTime).append(SEPARATOR);
         logContent.append(endTime).append(SEPARATOR);
 
-        for (String valueExp : template) {
-            logContent.append(TemplateUtil.render(valueExp, context)).append(SEPARATOR);
-        }
+        TemplateRenderManager.getRender().render(createTemplate(template), context);
+
         return logContent.toString();
     }
 

@@ -16,15 +16,10 @@ public @interface Digest {
      */
     String name();
 
-    /**
-     * parameter names
-     * @return
-     */
-    String[] args() default {};
 
     /**
      * log template
-     * {"SaleOrder", "update", "${resp.succeeded}", "${args0.orderId}", "${arg1.userId}"}
+     * {"SaleOrder", "update", "${resp.succeeded}", "${args0.orderId}", "${arg1.getUserId()}"}
      * @return
      */
     String[] valueTemplate();

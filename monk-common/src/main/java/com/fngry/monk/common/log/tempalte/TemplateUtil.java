@@ -1,4 +1,4 @@
-package com.fngry.monk.common.log;
+package com.fngry.monk.common.log.tempalte;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  *
  * template util
- *  other realization such as groovy-all
+ *  other realization such as groovy
  *  avoid import third party jar when use this log function, we realize use native jdk
  *
  * @author gaorongyu

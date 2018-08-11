@@ -3,6 +3,7 @@ package com.fngry.monk.common.log;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -19,10 +20,10 @@ public class DigestInterceptor extends LogInterceptor<Digest>{
         long startTime = System.currentTimeMillis();
         Object result;
 
-        CompletableFuture<Object> cf = null;
+        CompletableFuture<Object> cf = new CompletableFuture<>();
         try {
             result = methodInvocation.proceed();
-            cf = CompletableFuture.completedFuture(result);
+            cf.complete(result);
         } catch (Throwable e) {
             cf.completeExceptionally(e);
         } finally {
@@ -50,8 +51,9 @@ public class DigestInterceptor extends LogInterceptor<Digest>{
         context.put("error", throwable);
 
         Object[] arguments = methodInvocation.getArguments();
-        for( int i = 0; i < annotation.args().length; i++) {
-            context.put(annotation.args()[i], arguments[i]);
+        Parameter[] parameters = methodInvocation.getMethod().getParameters();
+        for( int i = 0; i < parameters.length; i++) {
+            context.put(parameters[i].getName(), arguments[i]);
         }
 
         DigestLogger digestLogger = DigestLoggerCache.INSTANCE.getLogger(annotation);
