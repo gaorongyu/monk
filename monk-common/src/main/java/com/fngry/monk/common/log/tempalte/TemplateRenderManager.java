@@ -28,8 +28,7 @@ public class TemplateRenderManager {
     }
 
     public static TemplateRender getRender() {
-        TemplateRender registered = registeredRenders.get(0);
-        return registered != null ? registered : defaultTemplateRender;
+        return registeredRenders.size() > 0 ? registeredRenders.get(0) : defaultTemplateRender;
     }
 
 }

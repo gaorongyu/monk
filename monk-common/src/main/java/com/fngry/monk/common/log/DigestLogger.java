@@ -40,7 +40,7 @@ public class  DigestLogger {
     private static String createTemplate(String[] value) {
         StringBuffer templateDisplay = new StringBuffer();
         for (String exp : value) {
-            templateDisplay.append(exp);
+            templateDisplay.append(exp).append(SEPARATOR);
         }
         return templateDisplay.toString();
     }
@@ -56,7 +56,8 @@ public class  DigestLogger {
         logContent.append(startTime).append(SEPARATOR);
         logContent.append(endTime).append(SEPARATOR);
 
-        TemplateRenderManager.getRender().render(createTemplate(template), context);
+        String expressionValue = TemplateRenderManager.getRender().render(createTemplate(template), context);
+        logContent.append(expressionValue);
 
         return logContent.toString();
     }
